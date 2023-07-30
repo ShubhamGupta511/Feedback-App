@@ -1,43 +1,27 @@
 import Header from "./components/Header";
+import FeedbackItem from "./components/FeedbackItem";
+import { useState } from "react";
+import FeedbackData from "./Data/FeedbackData";
+import FeedbackList from "./components/FeedbackList";
 
 
 function App() {
 
-    const title='Feedback-App'
-    const body='this is First Feedback For the website';
+  const [feedback,setFeedback]=useState(FeedbackData);
 
-    const loading =false;
-    const showcomments=true;
-    if(loading) return <h1>Loading...</h1>
-
-   
-
-    const comments=[
-        {id:1,text:'Comment One'},
-        {id:2,text:'Comment two'},
-        {id:3,text:'Comment Three'}
-    ]
-    
-
-    const commentBlock=( <div className='comments'>
-    <h3> Comments({comments.length})</h3>
-
-    <ul>
-        {comments.map((comment,index)=>(
-            <li key={index}>{comment.text}</li>
-
-        ))}
-    </ul>
-</div>)
+  const deleteFeedback=(id)=>{
+    setFeedback(feedback.filter((item)=>item.id!==id))
+  }
 
   return (
     <>
     <Header text='Feedback-App'/>
+    <FeedbackList feedback={feedback} handleDelete={deleteFeedback}/>
     <div className="container">
       <h1>My App</h1>
       <p>hi this is feedback-app</p>
-      {showcomments && commentBlock} 
     </div>
+    
     </>
   );
 }
