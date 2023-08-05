@@ -1,28 +1,22 @@
 import Header from "./components/Header";
-import { useState } from "react";
-import FeedbackData from "./Data/FeedbackData";
+
 import FeedbackList from "./components/FeedbackList";
 import FeedbackStats from "./components/FeedbackStats";
 import FeedbackForm from "./components/FeedbackForm";
-import { v4 as uuidv4 } from "uuid";
 import AboutPage from "./components/pages/AboutPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AboutIconLink from "./components/AboutIconLink";
+import { FeedbackProvider } from "./context/FeedbackContext";
+
+
+//Context-Api : It provide a way to pass the data through the component tree without having to pass
+//props manully at every level
 
 
 function App() {
-  const [feedback, setFeedback] = useState(FeedbackData);
-
-  const deleteFeedback = (id) => {
-    setFeedback(feedback.filter((item) => item.id !== id));
-  };
-
-  const addFeedback = (newFeedback) => {
-    newFeedback.id = uuidv4();
-    setFeedback([newFeedback, ...feedback]);
-  };
 
   return (
+    <FeedbackProvider>
     <Router>
       <div className="container">
         <Routes>
@@ -32,12 +26,9 @@ function App() {
             element={
               <>
                 <Header text="Feedback-App" />
-                <FeedbackForm handleAdd={addFeedback} />
-                <FeedbackStats feedback={feedback} />
-                <FeedbackList
-                  feedback={feedback}
-                  handleDelete={deleteFeedback}
-                />
+                <FeedbackForm />
+                <FeedbackStats/>
+                <FeedbackList />
               </>
             }
           />
@@ -48,6 +39,7 @@ function App() {
       </div>
       <AboutIconLink />
     </Router>
+    </FeedbackProvider>
   );
 }
 export default App;
